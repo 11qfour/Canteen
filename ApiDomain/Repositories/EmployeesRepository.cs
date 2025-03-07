@@ -1,5 +1,6 @@
 ﻿using ApiDomain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,11 @@ namespace ApiDomain.Repositories
     public class EmployeesRepository
     {
         private readonly ApiListContext _dbContext;
-        public EmployeesRepository(ApiListContext dbContext)
+        private readonly ILogger<OrdersDetailsRepository> _logger;
+        public EmployeesRepository(ApiListContext dbContext, ILogger<OrdersDetailsRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<List<Employee>> Get(CancellationToken cancellationToken)
@@ -57,7 +60,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при добавлении сотрудника {fullName}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при добавлении сотрудника {fullName}");               
                 throw;
             }
         }
@@ -74,7 +77,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при обновлении сотрудника {employeeId}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при обновлении сотрудника {employeeId}");                
                 throw;
             }
         }
@@ -89,7 +92,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при удалении сотрудника {id}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при удалении сотрудника {id}");
                 throw;
             }
         }

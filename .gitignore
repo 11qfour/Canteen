@@ -68,8 +68,8 @@ secrets.json
 # Исключаем конкретный файл ApiListContextFactory.cs
 ApiDomain/ApiListContextFactory.cs
 
-# Исключаем файлы с неправильными именами
-"Проект.txt"
+# Игнорируем файл "О проекте.txt"
+О проекте.txt
 
 # Migrations (опционально)
 Migrations/

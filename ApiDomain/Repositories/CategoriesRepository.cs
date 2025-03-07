@@ -1,5 +1,6 @@
 ﻿using ApiDomain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,11 @@ namespace ApiDomain.Repositories
     public class CategoriesRepository
     {
         private readonly ApiListContext _dbContext;
-        public CategoriesRepository(ApiListContext dbContext)
+        private readonly ILogger<OrdersDetailsRepository> _logger;
+        public CategoriesRepository(ApiListContext dbContext, ILogger<OrdersDetailsRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<List<Category>> Get(CancellationToken cancellationToken)
@@ -54,7 +57,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при добавлении категории {nameCategory}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при добавлении категории {nameCategory}");
                 throw;
             }
         }
@@ -69,7 +72,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при обновлении категории {categoryId}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при обновлении категории {categoryId}");
                 throw;
             }
         }
@@ -84,7 +87,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при удалении категории {id}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при удалении категории {id}");
                 throw;
             }
         }

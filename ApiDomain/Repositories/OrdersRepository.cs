@@ -1,6 +1,7 @@
 ﻿using ApiDomain.Enums;
 using ApiDomain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,11 @@ namespace ApiDomain.Repositories
     public class OrdersRepository
     {
         private readonly ApiListContext _dbContext;
-        public OrdersRepository(ApiListContext dbContext)
+        private readonly ILogger<OrdersDetailsRepository> _logger;
+        public OrdersRepository(ApiListContext dbContext, ILogger<OrdersDetailsRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<List<Order>> Get(CancellationToken cancellationToken)
@@ -61,7 +64,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при добавлении заказа по адресу {address} покупателю {customerId}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при добавлении заказа по адресу {address} покупателю {customerId}");
                 throw;
             }
         }
@@ -81,7 +84,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при обновлении заказа {orderId}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при обновлении заказа {orderId}");
                 throw;
             }
         }
@@ -96,7 +99,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при удалении заказа {id}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при удалении заказа {id}");
                 throw;
             }
         }

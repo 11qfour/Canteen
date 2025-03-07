@@ -1,5 +1,6 @@
 ﻿using ApiDomain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace ApiDomain.Repositories
     public class DishesRepository
     {
         private readonly ApiListContext _dbContext;
-        public DishesRepository(ApiListContext apiDBContext)
+        private readonly ILogger<OrdersDetailsRepository> _logger;
+        public DishesRepository(ApiListContext apiDBContext, ILogger<OrdersDetailsRepository> logger)
         {
             _dbContext = apiDBContext;
+            _logger = logger;
         }
 
         public async Task<List<Dish>> Get(CancellationToken cancellationToken)
@@ -58,7 +61,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при добавлении блюда {dishName}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при добавлении блюда {dishName}");
                 throw;
             }
         }
@@ -78,7 +81,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при обновлении блюда {dishId}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при обновлении блюда {dishId}");               
                 throw;
             }
         }
@@ -93,7 +96,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при удалении блюда {id}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при удалении блюда {id}");
                 throw;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using ApiDomain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace ApiDomain.Repositories
     public class CartsRepository
     {
         private readonly ApiListContext _dbContext;
-        public CartsRepository(ApiListContext apiDBContext)
+        private readonly ILogger<OrdersDetailsRepository> _logger;
+        public CartsRepository(ApiListContext apiDBContext, ILogger<OrdersDetailsRepository> logger)
         {
             _dbContext = apiDBContext;
+            _logger = logger;
         }
 
         public async Task<List<Cart>> Get(CancellationToken cancellationToken)
@@ -56,7 +59,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при добавлении корзины покупателя {customerId}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при добавлении корзины покупателя {customerId}");
                 throw;
             }
         }
@@ -85,7 +88,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при обновлении корзины {id}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при обновлении корзины {id}");
                 throw;
             }
 }
@@ -100,7 +103,7 @@ namespace ApiDomain.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка при удалении корзины {id}, детали: {e.Message}");
+                _logger.LogError(e, $"Ошибка при удалении корзины {id}");
                 throw;
             }
         }
