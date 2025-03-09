@@ -44,7 +44,7 @@ namespace ApiDomain.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task Add(Guid customerId, decimal totalPrice, CancellationToken cancellationToken)
+        public async Task<Cart> Add(Guid customerId, decimal totalPrice, CancellationToken cancellationToken)
         {
             try
             {
@@ -56,6 +56,7 @@ namespace ApiDomain.Repositories
                 };
                 await _dbContext.AddAsync(cartEntity, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);//сохраним данные
+                return cartEntity;
             }
             catch (Exception e)
             {

@@ -44,7 +44,7 @@ namespace ApiDomain.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task Add(string dishName,string description, decimal price, Guid categoryId, int cookingTime, CancellationToken cancellationToken)
+        public async Task<Dish> Add(string dishName,string description, decimal price, Guid categoryId, int cookingTime, CancellationToken cancellationToken)
         {
             try
             {
@@ -58,6 +58,7 @@ namespace ApiDomain.Repositories
                 };
                 await _dbContext.AddAsync(dishEntity,cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);//сохраним данные
+                return dishEntity;
             }
             catch (Exception e)
             {
@@ -66,7 +67,7 @@ namespace ApiDomain.Repositories
             }
         }
 
-        public async Task Update(Guid dishId, string dishName, string description, decimal price, Guid categoryId, int cookingTime, CancellationToken cancellationToken)
+        public async Task Update(Guid dishId, string dishName, string description, decimal price, int cookingTime, CancellationToken cancellationToken)
         {
             try
             {
@@ -75,7 +76,6 @@ namespace ApiDomain.Repositories
                 .ExecuteUpdateAsync(s => s
                 .SetProperty(c => c.DishName, dishName)
                 .SetProperty(c => c.Price, price)
-                .SetProperty(c => c.CategoryId, categoryId)
                 .SetProperty(c => c.CookingTime, cookingTime)
                 .SetProperty(c => c.Description, description), cancellationToken);
             }

@@ -44,7 +44,7 @@ namespace ApiDomain.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task Add(string nameCustomer, DateTime dataBirth, string email, CancellationToken cancellationToken)
+        public async Task<Customer> Add(string nameCustomer, DateTime dataBirth, string email, CancellationToken cancellationToken)
         {
             try
             {
@@ -56,6 +56,7 @@ namespace ApiDomain.Repositories
                 };
                 await _dbContext.AddAsync(customerEntity, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);//сохраним данные
+                return customerEntity;
             }
             catch (Exception e)
             {
@@ -64,7 +65,7 @@ namespace ApiDomain.Repositories
             }
         }
 
-        public async Task Update(Guid customerId, string nameCustomer, DateTime dataBirth, string email, CancellationToken cancellationToken)
+        public async Task Update(Guid customerId, string nameCustomer, string email, CancellationToken cancellationToken)
         {
             try
             {
@@ -72,7 +73,6 @@ namespace ApiDomain.Repositories
                 .Where(c => c.CustomerId == customerId)
                 .ExecuteUpdateAsync(s => s
                 .SetProperty(c => c.NameCustomer, nameCustomer)
-                .SetProperty(c => c.DateOfBirthday, dataBirth)
                 .SetProperty(c => c.Email, email), cancellationToken);
             }
             catch (Exception e)

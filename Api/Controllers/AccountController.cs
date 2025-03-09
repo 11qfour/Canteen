@@ -2,7 +2,7 @@
 
 namespace Api.Controllers
 {
-    public class AccountController:HomeController //отвечает за бизнес-логику по авторизации и регистрации, отобрадение страниц
+    public class AccountController:HomeController //отвечает за бизнес-логику по авторизации и регистрации, отображение страниц - не написан
     {
         public AccountController(ILogger<HomeController> logger) : base(logger)
         {

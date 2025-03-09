@@ -44,7 +44,7 @@ namespace ApiDomain.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task Add(string nameCategory, CancellationToken cancellationToken)
+        public async Task<Category> Add(string nameCategory, CancellationToken cancellationToken)
         {
             try
             {
@@ -54,6 +54,7 @@ namespace ApiDomain.Repositories
                 };
                 await _dbContext.AddAsync(categoryEntity, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);//сохраним данные
+                return categoryEntity;
             }
             catch (Exception e)
             {

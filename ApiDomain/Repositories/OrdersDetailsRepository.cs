@@ -44,7 +44,7 @@ namespace ApiDomain.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task Add(Guid orderId, Guid dishId, int quantity, int priceUnit, CancellationToken cancellationToken)
+        public async Task<OrderDetails> Add(Guid orderId, Guid dishId, int quantity, int priceUnit, CancellationToken cancellationToken)
         {
             try
             {
@@ -57,6 +57,7 @@ namespace ApiDomain.Repositories
                 };
                 await _dbContext.AddAsync(orderDetailsEntity, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);//сохраним данные
+                return orderDetailsEntity;
             }
             catch (Exception e)
             {

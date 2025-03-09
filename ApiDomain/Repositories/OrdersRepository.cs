@@ -46,21 +46,20 @@ namespace ApiDomain.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task Add(OrderStatus status, Guid customerId,decimal totalPrice, DateTime date, Guid employeeId, string address, CancellationToken cancellationToken)
+        public async Task<Order> Add(Guid customerId,decimal totalPrice, Guid employeeId, string address, CancellationToken cancellationToken)
         {
             try
             {
                 var orderEntity = new Order
                 {
-                    Status = status,
                     CustomerId = customerId,
                     TotalPrice=totalPrice,
-                    Date=date,
                     EmployeeId=employeeId,
                     Address=address
                 };
                 await _dbContext.AddAsync(orderEntity,cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);//сохраним данные
+                return orderEntity;
             }
             catch (Exception e)
             {
@@ -68,19 +67,14 @@ namespace ApiDomain.Repositories
                 throw;
             }
         }
-        public async Task Update(Guid orderId, OrderStatus status, Guid customerId,decimal totalPrice, DateTime date, Guid employeeId, string address, CancellationToken cancellationToken)
+        public async Task Update(Guid orderId, OrderStatus status, CancellationToken cancellationToken)
         {
             try
             {
                 await _dbContext.Order
                 .Where(c => c.OrderId == orderId)
                 .ExecuteUpdateAsync(s => s
-                .SetProperty(c => c.Status, status)
-                .SetProperty(c => c.CustomerId, customerId)
-                .SetProperty(c => c.TotalPrice, totalPrice)
-                .SetProperty(c => c.Date, date)
-                .SetProperty(c => c.EmployeeId, employeeId)
-                .SetProperty(c => c.Address, address), cancellationToken);
+                .SetProperty(c => c.Status, status), cancellationToken);
             }
             catch (Exception e)
             {
