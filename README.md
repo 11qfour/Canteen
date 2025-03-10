@@ -36,18 +36,23 @@ API разработано на **ASP.NET Core** с использованием
 ---
 
 ## 📂 Структура проекта
-Canteen/
-├── ApiDomain/                  # Основные модели и репозитории
-│   ├── Models/                 # Классы моделей
-│   ├── Repositories/           # Репозитории (CRUD-операции)
-├── Api/                        # Веб-приложение 
-│   ├── Controllers/            # Контроллеры API
-│   ├── DTOs/                   # Data Transfer Objects
-├── media/                      # Скриншоты API и диаграммы
-│   ├── ERDiagrams.png          # ER-диаграмма базы данных
-│   ├── swaggerFirst.png        # Swagger UI
-│   ├── swaggerSecond.png       # Swagger UI
-└── README.md                   # Документация проекта
+* Canteen/
+* ├── ApiDomain/                  # Основные модели и репозитории
+* │   ├── Configurations/         # Конфигурации (связи между сущностями БД)
+* │   ├── Enums/                  # Перечисления (для отображения статусов заказа и корзины)
+* │   ├── Models/                 # Классы моделей
+* │   ├── Repositories/           # Репозитории (CRUD-операции)
+* │   ├── Services/               # Сервисы
+* │   ├── ApiListContext.cs/      # DB Context
+* ├── Api/                        # Веб-приложение 
+* │   ├── Controllers/            # Контроллеры API
+* │   ├── DTO/                   # Data Transfer Objects
+* │   ├── Program.cs/             # Сборщик всего проекта
+* ├── media/                      # Скриншоты API и диаграммы
+* │   ├── ERDiagrams.png          # ER-диаграмма базы данных
+* │   ├── swaggerFirst.png        # Swagger UI
+* │   ├── swaggerSecond.png       # Swagger UI
+* └── README.md                   # Документация проекта
 
 ---
 
@@ -84,10 +89,10 @@ Canteen/
 
 ## 📦 Структура DTO
 В проекте используются **Data Transfer Objects** (DTO):
-Тип DTO                     Назначение
-<name>CreateDto             Создание (Request)
-<name>UpdateDto             Обновление (Request)
-<name>Dto                   Вывод (Response)
+- Тип DTO                     Назначение
+* <name>CreateDto             Создание (Request)
+* <name>UpdateDto             Обновление (Request)
+* <name>Dto                   Вывод (Response)
 
 ---
 
@@ -109,5 +114,5 @@ Canteen/
 
 ## ✉️ Контакты
 
-📧Email: elevenfourprod@yandex.ru
-🐙GitHub: @11qfour
+* 📧Email: elevenfourprod@yandex.ru
+* 🐙GitHub: @11qfour
