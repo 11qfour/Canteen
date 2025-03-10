@@ -1,0 +1,113 @@
+#🍽 Canteen API
+
+![C#](https://img.shields.io/badge/C%23-7.0-purple?style=flat-square&logo=csharp)
+![Entity Framework Core](https://img.shields.io/badge/EF%20Core-9.0.2-green?style=flat-square&logo=ef)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?style=flat-square&logo=postgresql)
+
+---
+
+## 📚 Описание проекта
+
+**Canteen** — это веб-приложениее для управления заказами в столовой. 
+**ApiDomain** содержит основной слой Api. Этот слой позволяет:
+- Работать с клиентами, заказами, блюдами и корзинами.
+- Управлять категориями блюд.
+- Использовать Swagger для тестирования API.
+
+API разработано на **ASP.NET Core** с использованием **Entity Framework Core** и **PostgreSQL** для хранения данных.
+
+---
+
+## 📊 ER-диаграмма базы данных
+
+Ниже представлена схема структуры базы данных:
+
+![📌 CanteenDB](https://github.com/11qfour/Canteen/tree/main/media/ERDiagrams.png)
+
+---
+
+## 🛠️ Технологии
+
+- **Backend**: ASP.NET Core 7, Entity Framework Core.
+- **Frontend**: React (планируется).
+- **База данных**:  PostgreSQL.
+- **Инструменты разработки**: Visual Studio, PgAdmin.
+
+---
+
+## 📂 Структура проекта
+Canteen/
+├── ApiDomain/                  # Основные модели и репозитории
+│   ├── Models/                 # Классы моделей
+│   ├── Repositories/           # Репозитории (CRUD-операции)
+├── Api/                        # Веб-приложение 
+│   ├── Controllers/            # Контроллеры API
+│   ├── DTOs/                   # Data Transfer Objects
+├── media/                      # Скриншоты API и диаграммы
+│   ├── ERDiagrams.png          # ER-диаграмма базы данных
+│   ├── swaggerFirst.png        # Swagger UI
+│   ├── swaggerSecond.png       # Swagger UI
+└── README.md                   # Документация проекта
+
+---
+
+## 🔧 Установка и запуск
+
+1. **Склонируйте репозиторий**:
+   ```bash
+   git clone https://github.com/your-repository-url.git
+   cd canteen-api
+
+2. **Настройте подключение к базе данных** в appsettings.json
+3. **Примените миграции:**
+    ```bash
+    dotnet ef database update
+4. **Запустите приложение:**
+    ```bash
+     dotnet run
+5. **Откройте Swagger UI:** 👉 https://localhost:7168/swagger/index.html
+
+
+## 🖼️ Интерфейс [в разработке]
+
+---
+
+## 🧪 Тестирование
+
+* Тестирование программы при помощи **Swagger**
+
+![📌 Cart, Category, Customer](https://github.com/11qfour/Canteen/tree/main/media/swaggerFirst.png)
+
+![📌 Dish, Employee, Order](https://github.com/11qfour/Canteen/tree/main/media/swaggerSecond.png)
+
+---
+
+## 📦 Структура DTO
+В проекте используются **Data Transfer Objects** (DTO):
+Тип DTO                     Назначение
+<name>CreateDto             Создание (Request)
+<name>UpdateDto             Обновление (Request)
+<name>Dto                   Вывод (Response)
+
+---
+
+## 🤝 Контрибьюция
+Буду рад любым предложениям и пул-реквестам!
+1. **Форкните**  этот репозиторий
+2. Создайте **новую ветку** 
+    ```bash
+    git checkout -b feature-branch
+3. Внесите изменения и сделайте коммит
+    ```bash
+    git commit -m 'add ...'
+4. Отправьте изменения (git push origin feature-branch)
+    ```bash
+    git push origin feature-branch
+5. Создайте Pull Request 🚀
+
+---
+
+## ✉️ Контакты
+
+📧Email: elevenfourprod@yandex.ru
+🐙GitHub: @11qfour

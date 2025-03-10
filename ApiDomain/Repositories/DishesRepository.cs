@@ -23,6 +23,7 @@ namespace ApiDomain.Repositories
         {
             return await _dbContext.Dish
                 .AsNoTracking() //отключает отслеживание сущностей
+                .Include(d => d.Category)
                 .OrderBy(c => c.CategoryId) //по айди категории
                 .ToListAsync(cancellationToken);
         }

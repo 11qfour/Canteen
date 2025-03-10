@@ -24,7 +24,7 @@ namespace Api.Controllers
                 DishName = dish.DishName,
                 Description = dish.Description,
                 Price = dish.Price,
-                CategoryName = dish.Category.NameCategory
+                CategoryName = dish.Category?.NameCategory
             }).ToList();
             return Ok(dishDtos);
         }
