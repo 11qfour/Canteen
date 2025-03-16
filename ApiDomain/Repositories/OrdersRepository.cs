@@ -25,6 +25,9 @@ namespace ApiDomain.Repositories
         {
             return await _dbContext.Order
                 .AsNoTracking() //отключает отслеживание сущностей
+                .Include(c => c.Customer)
+                .Include(c => c.Employee)
+                .Include(c => c.OrderDetails)
                 .OrderBy(x => x.Date) //сортируем по дате
                 .ToListAsync(cancellationToken);
         }
@@ -33,6 +36,8 @@ namespace ApiDomain.Repositories
         {
             return await _dbContext.Order
                 .AsNoTracking()
+                .Include(c => c.Customer)
+                .Include(c => c.Employee)
                 .Include(c => c.OrderDetails)
                 .FirstOrDefaultAsync(c => c.OrderId == id, cancellationToken);
         }

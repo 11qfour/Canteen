@@ -24,6 +24,8 @@ namespace ApiDomain.Repositories
         public async Task<List<CartDetails>> Get(CancellationToken cancellationToken)
         {
             return await _dbContext.CartDetails
+                .Include(c=>c.Dish)
+                .OrderBy(c=>c.Dish.Price)
                 .AsNoTracking() //отключает отслеживание сущностей
                 .ToListAsync(cancellationToken);
         }
@@ -103,6 +105,7 @@ namespace ApiDomain.Repositories
         public async Task AddDish(Guid cartDetailsId, Dish dish, int quantity, CancellationToken cancellationToken) //добавляем работу для работника
         {
             var tempOrder = await _dbContext.CartDetails
+                .Include(d=>d.Dish)
                 .FirstOrDefaultAsync(c => c.CartDetailsId == cartDetailsId, cancellationToken)
                 ?? throw new Exception($"Ошибка при добавлении блюда {dish.DishId} в детали корзины");
             tempOrder.Dish = dish;

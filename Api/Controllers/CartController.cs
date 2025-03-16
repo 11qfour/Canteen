@@ -74,6 +74,7 @@ namespace Api.Controllers
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] CartUpdateDto cartDto, CancellationToken cancellationToken)
         {
+
             if (cartDto == null)
                 return BadRequest("Некорректные данные");
 

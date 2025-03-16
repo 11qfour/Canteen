@@ -23,6 +23,8 @@ namespace ApiDomain.Repositories
         {
             return await _dbContext.Cart
                 .AsNoTracking() //отключает отслеживание сущностей
+                .Include(c => c.Customer)
+                .Include(c => c.CartDetails)
                 .OrderBy(c=>c.Status) //по наполнению корзины
                 .ToListAsync(cancellationToken);
         }
@@ -31,6 +33,7 @@ namespace ApiDomain.Repositories
         {
             return await _dbContext.Cart
                 .AsNoTracking()
+                .Include(c => c.Customer)
                 .Include(c => c.CartDetails)// Загружаем детали корзины
                 .FirstOrDefaultAsync(c => c.CartId ==id, cancellationToken);
         }
@@ -80,8 +83,15 @@ namespace ApiDomain.Repositories
         {
             try
             {
+                // Проверяем, существует ли клиент с таким ID
+                bool customerExists = await _dbContext.Customer.AnyAsync(c => c.CustomerId == customerId, cancellationToken);
+                if (!customerExists)
+                {
+                    throw new Exception($"Ошибка: Клиент с ID {customerId} не найден!");
+                }
                 await _dbContext.Cart
                 .Where(c => c.CartId == id)
+                .Include(c=>c.Customer)
                 .ExecuteUpdateAsync(s => s
                 .SetProperty(c => c.CustomerId, customerId)
                 .SetProperty(c=>c.TotalPrice, totalPrice)

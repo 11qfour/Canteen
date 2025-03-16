@@ -1,4 +1,4 @@
-#🍽 Canteen API
+🍽 Canteen API
 
 ![C#](https://img.shields.io/badge/C%23-7.0-purple?style=flat-square&logo=csharp)
 ![Entity Framework Core](https://img.shields.io/badge/EF%20Core-9.0.2-green?style=flat-square&logo=ef)
@@ -73,26 +73,71 @@ API разработано на **ASP.NET Core** с использованием
 5. **Откройте Swagger UI:** 👉 https://localhost:7168/swagger/index.html
 
 
-## 🖼️ Интерфейс [в разработке]
+## 🖼️ Интерфейс 
+
+# Макет интерфейса
+
+![]()
+
+# Реализованный интерфейс
+
+* [в разработке]
 
 ---
 
-## 🧪 Тестирование
+## 🧪 Тестирование API при помощи **Swagger**
 
-* Тестирование программы при помощи **Swagger**
+* Post-запросы
 
-![📌 Cart, Category, Customer](https://github.com/11qfour/Canteen/tree/main/media/swaggerFirst.png)
+![📌 Успешное выполнение POST-запроса контроллера Dish](https://github.com/11qfour/Canteen/tree/main/media/postSuccess.png)
 
-![📌 Dish, Employee, Order](https://github.com/11qfour/Canteen/tree/main/media/swaggerSecond.png)
+![📌 Ошибочное выполнение POST-запроса контроллера Dish, не найден CategoryId](https://github.com/11qfour/Canteen/tree/main/media/postError1.png)
+
+![📌 Ошибочное выполнение POST-запроса контроллера Cart, нарушение связи Один к Одному](https://github.com/11qfour/Canteen/tree/main/media/postError2.png)
+
+* Get-запросы
+
+![📌 Успешное выполнение GET-запроса контроллера Employee](https://github.com/11qfour/Canteen/tree/main/media/getSuccess1.png)
+
+![📌 Успешное выполнение GET-запроса по id контроллера Employee](https://github.com/11qfour/Canteen/tree/main/media/getSuccess2.png)
+
+![📌 Ошибочное выполнение GET-запроса контроллера Employee, не найден EmployeeId](https://github.com/11qfour/Canteen/tree/main/media/getError.png)
+
+* PUT-запросы
+
+![📌 Успешное выполнение PUT-запроса контроллера Cart](https://github.com/11qfour/Canteen/tree/main/media/putSuccess1.png)
+
+![📌 Ошибочное выполнение PUT-запроса контроллера Order](https://github.com/11qfour/Canteen/tree/main/media/putError.png)
+
+![📌 Исправление выполнение PUT-запроса контроллера Order](https://github.com/11qfour/Canteen/tree/main/media/putChange.png)
+
+![📌Результат выполнения PUT-запроса -> GET-запрос контроллера Order (статус заказа - Ready)](https://github.com/11qfour/Canteen/tree/main/media/putSuccess2.png)
+
+* Delete-запросы
+
+![📌 Получение всех сотрудников](https://github.com/11qfour/Canteen/tree/main/media/deleteCheck.png)
+
+![📌 Успешное выполнение DELETE-запроса по id контроллера Employee](https://github.com/11qfour/Canteen/tree/main/media/deleteSuccess.png)
 
 ---
 
+## 🔬 Тестирование API при помощи **Postman**
+
+* Post-запросы
+
+* Get-запросы
+
+* Update-запросы
+
+* Delete-запросы
+
+---
 ## 📦 Структура DTO
 В проекте используются **Data Transfer Objects** (DTO):
-- Тип DTO                     Назначение
-* <name>CreateDto             Создание (Request)
-* <name>UpdateDto             Обновление (Request)
-* <name>Dto                   Вывод (Response)
+# Тип DTO                     Назначение
+* <name>CreateDto     ->        Создание (Request)
+* <name>UpdateDto     ->        Обновление (Request)
+* <name>Dto           ->      Вывод (Response)
 
 ---
 
