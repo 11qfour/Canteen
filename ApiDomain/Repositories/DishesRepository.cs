@@ -32,6 +32,7 @@ namespace ApiDomain.Repositories
         {
             return await _dbContext.Dish
                 .AsNoTracking()
+                .Include(d => d.Category) //включаем подгрузку категорий
                 .Include(c => c.CartDetails)
                 .FirstOrDefaultAsync(c => c.DishId == id, cancellationToken);
         }
