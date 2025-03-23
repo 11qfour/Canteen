@@ -125,6 +125,7 @@ API разработано на **ASP.NET Core** с использованием
 
 1. Post-запросы
 
+<<<<<<< HEAD
     *[📌 Успешное выполнение POST-запроса контроллера Order](https://github.com/11qfour/Canteen/tree/main/media/PostSuccessPostman.png)
     *[📌 Ошибочное выполнение POST-запроса контроллера Cart, нарушение связи Один к Одному](https://github.com/11qfour/Canteen/tree/main/media/PostErrorPostman.png)
 
@@ -142,24 +143,57 @@ API разработано на **ASP.NET Core** с использованием
     
 3. PUT-запросы
 
+=======
+    ```bash
+    https://localhost:7168/api/<название сущности>
+
+    *[📌 Успешное выполнение POST-запроса контроллера Order](https://github.com/11qfour/Canteen/tree/main/media/PostSuccessPostman.png)
+    *[📌 Ошибочное выполнение POST-запроса контроллера Cart, нарушение связи Один к Одному](https://github.com/11qfour/Canteen/tree/main/media/PostErrorPostman.png)
+
+2. Get-запросы
+
+    ```bash
+    https://localhost:7168/api/<название сущности> //вывод всей информации
+    https://localhost:7168/api/<название сущности>/{id} //вывод информации по ID
+
+    ![📌 Успешное выполнение GET-запроса контроллера Category](https://github.com/11qfour/Canteen/tree/main/media/GetSuccessPostman.png)
+    ![📌 Ошибочное выполнение GET-запроса контроллера Order, не найден OrderId](https://github.com/11qfour/Canteen/tree/main/media/GetErrorPostman.png)
+    
+3. PUT-запросы
+
+    ```bash
+    https://localhost:7168/api/<название сущности>/{id}
+
+>>>>>>> d3b77ec9a31376075fcac7156b2b4df34dea0914
     ![📌 Успешное выполнение PUT-запроса контроллера Employee](https://github.com/11qfour/Canteen/tree/main/media/PutSuccessPostman1.png)
 
     ![📌 Успешное выполнение PUT-запроса контроллера Customer](https://github.com/11qfour/Canteen/tree/main/media/PutSuccessPostman2.png)
 
     ![📌 Ошибочное выполнение PUT-запроса контроллера Order, такой позиции в перечислении статуса нет, выходит за границы enum](https://github.com/11qfour/Canteen/tree/main/media/PutErrorPostman.png)
 
+<<<<<<< HEAD
     ```bash
     https://localhost:7168/api/<название сущности>/{id}
 
 4. Delete-запросы
+=======
+4. Delete-запросы
+
+    ```bash
+    https://localhost:7168/api/<название сущности>/{id}
+
+>>>>>>> d3b77ec9a31376075fcac7156b2b4df34dea0914
     ![📌 Получение Cart](https://github.com/11qfour/Canteen/tree/main/media/GetDeleteCheckPostman.png)
 
     ![📌 Успешное выполнение DELETE-запроса по id контроллера Cart](https://github.com/11qfour/Canteen/tree/main/media/DeleteSuccessPostman.png)
 
     ![📌 Проверка Cart](https://github.com/11qfour/Canteen/tree/main/media/DeleteCheckPostman.png)
+<<<<<<< HEAD
 
     ```bash
     https://localhost:7168/api/<название сущности>/{id}
+=======
+>>>>>>> d3b77ec9a31376075fcac7156b2b4df34dea0914
 
 ---
 ## 📦 Структура DTO
