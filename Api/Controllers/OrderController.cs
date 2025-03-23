@@ -1,4 +1,5 @@
 ﻿using Api.DTO;
+using ApiDomain.Enums;
 using ApiDomain.Models;
 using ApiDomain.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +66,10 @@ namespace Api.Controllers
         {
             if (orderDto == null)
                 return BadRequest("Некорректные данные");
-
+            if (!Enum.IsDefined(typeof(OrderStatus), orderDto.Status))
+            {
+                return BadRequest("Некорректные данные"); //если выходит за границы enum
+            }
             await _ordersRepository.Update(id,orderDto.Status, cancellationToken);
             return NoContent();
         }
