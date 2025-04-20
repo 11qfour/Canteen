@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApiDomain.Models;
+using ApiDomain;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Api.DTO
 {
-    public class CartDetailsDto
+    public class OrderDetailsDto
     {
         [Required(ErrorMessage = "Dish ID is required.")]
         public Guid DishId { get; set; }  // ID блюда
@@ -17,5 +20,8 @@ namespace Api.DTO
         [Required(ErrorMessage = "PriceUnit is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Price Unit must be greater than 0.")]
         public decimal PriceUnit { get; set; }  // Цена за единицу
+        [Required(ErrorMessage = "Order Details are required.")]
+        [MinLength(1, ErrorMessage = "Order must contain at least one item.")]
+        public List<OrderDetailsDto> OrderDetails { get; set; } = new();
     }
 }
