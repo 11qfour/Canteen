@@ -78,47 +78,12 @@ Canteen/
 
 # Макет интерфейса
 
-* https://www.figma.com/design/SMQj2yHzQJvgIGv9vpnJLL/canteen-maket?node-id=0-1&p=f&t=W4vIYsz2OeOkd4hF-0
+https://www.figma.com/design/SMQj2yHzQJvgIGv9vpnJLL/canteen-maket?node-id=0-1&p=f&t=W4vIYsz2OeOkd4hF-0
 
 # Реализованный интерфейс
 
-* [в разработке]
 
----
-
-## 🧪 Тестирование API при помощи **Swagger**
-
-* Post-запросы
-
-![📌 Успешное выполнение POST-запроса контроллера Dish](https://github.com/11qfour/Canteen/raw/main/media/postSuccess.png)
-
-![📌 Ошибочное выполнение POST-запроса контроллера Dish, не найден CategoryId](https://github.com/11qfour/Canteen/raw/main/media/postError1.png)
-
-![📌 Ошибочное выполнение POST-запроса контроллера Cart, нарушение связи Один к Одному](https://github.com/11qfour/Canteen/raw/main/media/postError2.png)
-
-* Get-запросы
-
-![📌 Успешное выполнение GET-запроса контроллера Employee](https://github.com/11qfour/Canteen/raw/main/media/getSuccess1.png)
-
-![📌 Успешное выполнение GET-запроса по id контроллера Employee](https://github.com/11qfour/Canteen/raw/main/media/getSuccess2.png)
-
-![📌 Ошибочное выполнение GET-запроса контроллера Employee, не найден EmployeeId](https://github.com/11qfour/Canteen/raw/main/media/getError.png)
-
-* Put-запросы
-
-![📌 Успешное выполнение PUT-запроса контроллера Cart](https://github.com/11qfour/Canteen/raw/main/media/putSuccess1.png)
-
-![📌 Ошибочное выполнение PUT-запроса контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/putError.png)
-
-![📌 Исправление выполнение PUT-запроса контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/putChange.png)
-
-![📌Результат выполнения PUT-запроса -> GET-запрос контроллера Order (статус заказа - Ready)](https://github.com/11qfour/Canteen/raw/main/media/putSuccess2.png)
-
-* Delete-запросы
-
-![📌 Получение всех сотрудников](https://github.com/11qfour/Canteen/raw/main/media/deleteCheck.png)
-
-![📌 Успешное выполнение DELETE-запроса по id контроллера Employee](https://github.com/11qfour/Canteen/raw/main/media/deleteSuccess.png)
+[в разработке]
 
 ---
 
@@ -126,52 +91,66 @@ Canteen/
 
 1. Post-запросы
 
-    *[📌 Успешное выполнение POST-запроса контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/PostSuccessPostman.png)
-    *[📌 Ошибочное выполнение POST-запроса контроллера Cart, нарушение связи Один к Одному](https://github.com/11qfour/Canteen/raw/main/media/PostErrorPostman.png)
+   ![📌 Успешное выполнение POST-запроса контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/SuccessPostOrder.png)
+
+   ![📌 Успешное выполнение POST-запроса контроллера Cart](https://github.com/11qfour/Canteen/raw/main/media/SuccessPostCart.png)
+
+   ![📌 Успешное выполнение POST-запроса контроллера Dish](https://github.com/11qfour/Canteen/raw/main/media/SuccessPostDish.png)
+
+   ![📌 Ошибочное выполнение POST-запроса контроллера Cart, нарушение связи Один к Одному](https://github.com/11qfour/Canteen/raw/main/media/ExampleErrorPostCartOneToOne.png)
+
+   ![📌 Ошибочное выполнение POST-запроса контроллера Dish, нарушение условий полей сущностей](https://github.com/11qfour/Canteen/raw/main/media/Example400ErrorPostDish.png)
+
 
     ```bash
     https://localhost:7168/api/<название сущности>
 
 2. Get-запросы
 
-    ![📌 Успешное выполнение GET-запроса контроллера Category](https://github.com/11qfour/Canteen/raw/main/media/GetSuccessPostman.png)
-    ![📌 Ошибочное выполнение GET-запроса контроллера Order, не найден OrderId](https://github.com/11qfour/Canteen/raw/main/media/GetErrorPostman.png)
+
+   ![📌 Успешное выполнение GET-запроса контроллера Category](https://github.com/11qfour/Canteen/raw/main/media/SuccessGetCategory.png)
+
+   ![📌 Успешное выполнение GET-запроса контроллера Dish](https://github.com/11qfour/Canteen/raw/main/media/SuccessGetDish.png)
+
+   ![📌 Успешное выполнение GET-запроса контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/SuccessGetOrder.png)
+
 
     ```bash
     https://localhost:7168/api/<название сущности> //вывод всей информации
     https://localhost:7168/api/<название сущности>/{id} //вывод информации по ID
-    
+        
 3. PUT-запросы
-    *[📌 Успешное выполнение POST-запроса контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/PostSuccessPostman.png)
-    *[📌 Ошибочное выполнение POST-запроса контроллера Cart, нарушение связи Один к Одному](https://github.com/11qfour/Canteen/raw/main/media/PostErrorPostman.png)
-   
-    ```bash
-    https://localhost:7168/api/<название сущности>
 
-2. Get-запросы
-    ![📌 Успешное выполнение GET-запроса контроллера Category](https://github.com/11qfour/Canteen/raw/main/media/GetSuccessPostman.png)
-    ![📌 Ошибочное выполнение GET-запроса контроллера Order, не найден OrderId](https://github.com/11qfour/Canteen/raw/main/media/GetErrorPostman.png)
+    ![📌 Успешное выполнение PUT-запроса контроллера Customer](https://github.com/11qfour/Canteen/raw/main/media/SuccessPutCustomer.png)
 
-    ```bash
-    https://localhost:7168/api/<название сущности> //вывод всей информации
-    https://localhost:7168/api/<название сущности>/{id} //вывод информации по ID
+    ![📌 Успешное выполнение PUT-запроса контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/SuccessPutOrder.png)
+
+    ![📌 Успешное выполнение PUT-запроса контроллера Cart](https://github.com/11qfour/Canteen/raw/main/media/SuccessPutCart.png)
+
+    ![📌 Успешное выполнение PUT-запроса контроллера Dish](https://github.com/11qfour/Canteen/raw/main/media/SuccessPutDish.png)
     
-3. PUT-запросы
-    ![📌 Успешное выполнение PUT-запроса контроллера Employee](https://github.com/11qfour/Canteen/raw/main/media/PutSuccessPostman1.png)
-
-    ![📌 Успешное выполнение PUT-запроса контроллера Customer](https://github.com/11qfour/Canteen/raw/main/media/PutSuccessPostman2.png)
-
-    ![📌 Ошибочное выполнение PUT-запроса контроллера Order, такой позиции в перечислении статуса нет, выходит за границы enum](https://github.com/11qfour/Canteen/raw/main/media/PutErrorPostman.png)
-   
-    ```bash
+   ```bash
     https://localhost:7168/api/<название сущности>/{id}
 
-4. Delete-запросы
-   ![📌 Получение Cart](https://github.com/11qfour/Canteen/raw/main/media/GetDeleteCheckPostman.png)
+4. PUT-запросы изменений статусов Cart и Order
 
-    ![📌 Успешное выполнение DELETE-запроса по id контроллера Cart](https://github.com/11qfour/Canteen/raw/main/media/DeleteSuccessPostman.png)
+   ![📌 Успешное выполнение PUT-запроса статуса Cart](https://github.com/11qfour/Canteen/raw/main/media/SuccessPutCartStatus.png)
 
-    ![📌 Проверка Cart](https://github.com/11qfour/Canteen/raw/main/media/DeleteCheckPostman.png)
+   ![📌 Успешное выполнение PUT-запроса статуса Order](https://github.com/11qfour/Canteen/raw/main/media/SuccessPutOrderStatus.png)
+
+   ![📌 Ошибочное выполнение PUT-запроса статуса Order, неверный переход между статусами, перескочили через другой этап](https://github.com/11qfour/Canteen/raw/main/media/Example400ErrorPutOrderStatus.png)
+
+
+   ```bash
+   https://localhost:7168/api/order/{id}/status
+   https://localhost:7168/api/cart/{id}/status
+   ```
+
+5. Delete-запросы
+
+   ![📌 Успешное выполнение DELETE-запроса по id контроллера Cart](https://github.com/11qfour/Canteen/raw/main/media/DeleteSuccessPostman.png)
+   
+   ![📌 Успешное выполнение DELETE-запроса по id контроллера Order](https://github.com/11qfour/Canteen/raw/main/media/SuccessDeleteOrder.png)
    
     ```bash
     https://localhost:7168/api/<название сущности>/{id}
@@ -179,10 +158,14 @@ Canteen/
 ---
 ## 📦 Структура DTO
 В проекте используются **Data Transfer Objects** (DTO):
-# Тип DTO             ->        Назначение
-* <name>CreateDto     ->        Создание (Request)
-* <name>UpdateDto     ->        Обновление (Request)
-* <name>Dto           ->      Вывод (Response)
+------------------------------------------------------
+ Тип DTO            ->         Назначение
+
+<name>CreateDto     ->        Создание (Request)
+
+<name>UpdateDto     ->        Обновление (Request)
+
+<name>Dto           ->      Вывод (Response)
 
 ---
 
@@ -204,5 +187,6 @@ Canteen/
 
 ## ✉️ Контакты
 
-* 📧Email: elevenfourprod@yandex.ru
-* 🐙GitHub: @11qfour
+📧Email: elevenfourprod@yandex.ru
+
+🐙GitHub: @11qfour
