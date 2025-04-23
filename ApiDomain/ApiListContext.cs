@@ -16,7 +16,6 @@ namespace ApiDomain
         public DbSet<Category> Category { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Dish> Dish { get; set; }
-        public DbSet<Employee> Employee { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
 
@@ -27,7 +26,6 @@ namespace ApiDomain
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new DishConfiguration());
-            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
             base.OnModelCreating(modelBuilder);

@@ -2,11 +2,12 @@ using ApiDomain;
 using ApiDomain.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+/*builder.Services.AddControllers();*/
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -15,16 +16,21 @@ builder.Services.AddDbContext<ApiListContext>(options=>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
     .LogTo(Console.WriteLine, LogLevel.Information));
 
+// Добавление сервисов в контейнер
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 // Регистрируем репозитории
-builder.Services.AddScoped<CartDetailsRepository>();
+builder.Services.AddScoped<CartsDetailsRepository>();
 builder.Services.AddScoped<CartsRepository>();
 builder.Services.AddScoped<OrdersRepository>();
 builder.Services.AddScoped<OrdersDetailsRepository>();
 builder.Services.AddScoped<CustomersRepository>();
 builder.Services.AddScoped<CategoriesRepository>();
 builder.Services.AddScoped<DishesRepository>();
-builder.Services.AddScoped<EmployeesRepository>();
 
 var app = builder.Build();
 
