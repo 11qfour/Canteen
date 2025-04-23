@@ -8,5 +8,6 @@ namespace Api.DTO
         public Guid CategoryId { get; set; }
         [Required(ErrorMessage = "Name Category is required")]
         public string NameCategory { get; set; }
+        public List<DishDto> Dishes { get; set; } = new ();
     }
 }

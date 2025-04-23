@@ -10,5 +10,6 @@ namespace Api.DTO
         public string NameCustomer { get; set; }
         [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }
+        public List<OrderDto> orders { get; set; } = new();
     }
 }

@@ -6,10 +6,6 @@ namespace Api.DTO
     {
         [Required(ErrorMessage = "Dish ID is required.")]
         public Guid DishId { get; set; }  // ID блюда
-
-        [Required(ErrorMessage = "Dish Name is required.")]
-        public string DishName { get; set; } = string.Empty;  // Название блюда
-
         [Required(ErrorMessage = "Quantity is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0.")]
         public int Quantity { get; set; }  // Количество
