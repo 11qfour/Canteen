@@ -17,9 +17,6 @@ namespace ApiDomain.Configurations
             builder.HasOne(x => x.Customer)
                 .WithMany(x => x.Orders)
                 .HasForeignKey(x => x.CustomerId);
-            builder.HasOne(x => x.Employee)
-                .WithMany(x => x.Orders)
-                .HasForeignKey(x => x.EmployeeId);
         }
     }
 }
