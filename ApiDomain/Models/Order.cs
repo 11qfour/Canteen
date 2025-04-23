@@ -22,9 +22,6 @@ namespace ApiDomain.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
         public DateTime Date { get; set; }
-        //внешний ключ на сотрудника (один сотрудник -> много заказов)
-        public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; } = null!;
 
         public string Address { get; set; } = string.Empty;
 
@@ -35,7 +32,7 @@ namespace ApiDomain.Models
         public DateTime? DateCanceled { get; private set; }
 
         // Метод для обновления временных меток
-        internal void UpdateStatusTimestamp(OrderStatus status)
+        public void UpdateStatusTimestamp(OrderStatus status)
         {
             switch (status)
             {
@@ -56,5 +53,8 @@ namespace ApiDomain.Models
                     break;
             }
         }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; } // Для контроля параллелизма
     }
 }

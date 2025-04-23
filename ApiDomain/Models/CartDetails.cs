@@ -23,5 +23,7 @@ public class CartDetails
         // Цена за единицу блюда (может отличаться от Dish.Price, например, со скидкой)
         [Column(TypeName = "decimal(18,2)")]
         public decimal PriceUnit { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; } // Для контроля параллелизма
     }
 }
