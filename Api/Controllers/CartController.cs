@@ -1,5 +1,6 @@
 ﻿using Api.DTO;
 using ApiDomain;
+using ApiDomain.Enums;
 using ApiDomain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -29,7 +30,6 @@ namespace Api.Controllers
                 CartDetails = cart.CartDetails.Select(d=> new CartDetailsDto
                 {
                     DishId = d.DishId,
-                    DishName = d.Dish.DishName, // Получаем название блюда
                     Quantity = d.Quantity,
                     PriceUnit = d.PriceUnit
                 }).ToList()
@@ -52,7 +52,6 @@ namespace Api.Controllers
                 CartDetails = cart.CartDetails.Select(d => new CartDetailsDto
                 {
                     DishId = d.DishId,
-                    DishName = d.Dish.DishName,
                     Quantity = d.Quantity,
                     PriceUnit = d.PriceUnit
                 }).ToList()
@@ -63,31 +62,89 @@ namespace Api.Controllers
         [HttpPost]// Добавление корзины
         public async Task<IActionResult> Add([FromBody] CartCreateDto cartDto, CancellationToken cancellationToken)
         {
-            if (cartDto == null)
-                return BadRequest("Некорректные данные");
+            if (!ModelState.IsValid) //проверяем заполненность данных в модели Дто
+                return BadRequest(ModelState);
 
-            var newCart = await _cartsRepository.Add(cartDto.CustomerId, cartDto.TotalPrice, cancellationToken);
-            return CreatedAtAction(nameof(GetById), new { id = newCart.CartId }, cartDto);
+            try
+            {
+                var newCart = await _cartsRepository.Add(cartDto.CustomerId, cartDto.TotalPrice, cartDto.CartDetails, cancellationToken);
+                return CreatedAtAction(nameof(GetById), new { id = newCart.CartId }, cartDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // Обновление корзины
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] CartUpdateDto cartDto, CancellationToken cancellationToken)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (cartDto == null)
-                return BadRequest("Некорректные данные");
-
-            await _cartsRepository.Update(id, cartDto.CustomerId, cartDto.TotalPrice, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _cartsRepository.Update(id, cartDto.CustomerId, cartDto.TotalPrice, cartDto.CartDetails, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // Удаление корзины
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            await _cartsRepository.Delete(id, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _cartsRepository.Delete(id, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id:guid}/status")]
+        public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] CartStatusUpdateDto statusDto, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!Enum.IsDefined(typeof(CartStatus), statusDto.Status))
+            {
+                return BadRequest("Некорректные данные статуса."); // Если значение выходит за границы enum
+            }
+
+            try
+            {
+                await _cartsRepository.UpdateStatus(id, statusDto.Status, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); // Возвращаем ошибку при недопустимом переходе статуса
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

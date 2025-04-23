@@ -1,4 +1,5 @@
 ﻿using Api.DTO;
+using ApiDomain.Models;
 using ApiDomain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,15 @@ namespace Api.Controllers
             var categoryDtos = categories.Select(category => new CategoryDto
             {
                 CategoryId = category.CategoryId,
-                NameCategory = category.NameCategory
+                NameCategory = category.NameCategory,
+                Dishes = category.Dishes.Select(d => new DishDto
+                {
+                    DishId = d.DishId,
+                    DishName = d.DishName, // Получаем название блюда
+                    Description = d.Description,
+                    Price = d.Price,
+                    CategoryName = category.NameCategory
+                }).ToList()
             }).ToList();
             return Ok(categoryDtos);
         }
@@ -31,7 +40,7 @@ namespace Api.Controllers
         {
             var category = await _categoriesRepository.GetById(id, cancellationToken);
             if (category == null)
-                return NotFound($"Блюдо {id} не найдено!");
+                return NotFound($"Категория {id} не найдена!");
 
             var categoryDto = new CategoryDto
             {
@@ -44,29 +53,56 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CategoryCreateDto categoryDto, CancellationToken cancellationToken)
         {
-            if (categoryDto == null)
-                return BadRequest("Некорректные данные");
+            if (!ModelState.IsValid) //проверяем заполненность данных в модели Дто
+                return BadRequest(ModelState);
 
-            var createdCategory = await _categoriesRepository.Add(categoryDto.NameCategory, cancellationToken);
-
-            return CreatedAtAction(nameof(GetById), new { id = createdCategory.CategoryId } ,categoryDto);
+            try
+            {
+                var createdCategory = await _categoriesRepository.Add(categoryDto.NameCategory, cancellationToken);
+                return CreatedAtAction(nameof(GetById), new { id = createdCategory.CategoryId }, categoryDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] CategoryUpdateDto categoryDto, CancellationToken cancellationToken)
         {
-            if (categoryDto == null)
-                return BadRequest("Некорректные данные");
-
-            await _categoriesRepository.Update(id, categoryDto.NameCategory, cancellationToken);
-            return NoContent();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                await _categoriesRepository.Update(id, categoryDto.NameCategory, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            await _categoriesRepository.Delete(id, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _categoriesRepository.Delete(id, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

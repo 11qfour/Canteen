@@ -46,28 +46,56 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CustomerCreateDto customerDto, CancellationToken cancellationToken)
         {
-            if (customerDto == null)
-                return BadRequest("Некорректные данные");
-
-            var newCustomer = await _customersRepository.Add(customerDto.NameCustomer, customerDto.DateOfBirth, customerDto.Email, cancellationToken);
-            return CreatedAtAction(nameof(GetById),new { id = newCustomer.CustomerId }, customerDto);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                var newCustomer = await _customersRepository.Add(customerDto.NameCustomer, customerDto.DateOfBirth, customerDto.Email, cancellationToken);
+                return CreatedAtAction(nameof(GetById),new { id = newCustomer.CustomerId }, customerDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] CustomerUpdateDto customerDto, CancellationToken cancellationToken)
         {
-            if (customerDto == null)
-                return BadRequest("Некорректные данные");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            await _customersRepository.Update(id, customerDto.NameCustomer, customerDto.Email, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _customersRepository.Update(id, customerDto.NameCustomer, customerDto.Email, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            await _customersRepository.Delete(id, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _customersRepository.Delete(id, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

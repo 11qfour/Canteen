@@ -20,11 +20,11 @@ namespace Api.Controllers
             var dishes = await _dishesRepository.Get(cancellationToken);
             var dishDtos = dishes.Select(dish => new DishDto
             {
-                DishId=dish.DishId,
+                DishId = dish.DishId,
                 DishName = dish.DishName,
                 Description = dish.Description,
                 Price = dish.Price,
-                CategoryName = dish.Category?.NameCategory
+                CategoryName = dish.Category?.NameCategory ?? "No Category" // проверка на существование
             }).ToList();
             return Ok(dishDtos);
         }
@@ -42,7 +42,7 @@ namespace Api.Controllers
                 DishName = dish.DishName,
                 Description = dish.Description,
                 Price = dish.Price,
-                CategoryName = dish.Category.NameCategory
+                CategoryName = dish.Category?.NameCategory ?? "No Category" // проверка на существование
             };
             return Ok(dishDto);
         }
@@ -50,28 +50,57 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] DishCreateDto dishDto, CancellationToken cancellationToken)
         {
-            if (dishDto == null)
-                return BadRequest("Некорректные данные");
+            if (!ModelState.IsValid) //проверяем заполненность данных в модели Дто
+                return BadRequest(ModelState);
 
-            var newDish = await _dishesRepository.Add(dishDto.DishName, dishDto.Description, dishDto.Price, dishDto.CategoryId, dishDto.CookingTime, cancellationToken);
-            return CreatedAtAction(nameof(GetById), new { id = newDish.DishId}, dishDto);
+            try
+            {
+                var newDish = await _dishesRepository.Add(dishDto.DishName, dishDto.Description, dishDto.Price, dishDto.CategoryId, dishDto.CookingTime, cancellationToken);
+                return CreatedAtAction(nameof(GetById), new { id = newDish.DishId}, dishDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] DishUpdateDto dishDto, CancellationToken cancellationToken)
         {
-            if (dishDto == null)
-                return BadRequest("Некорректные данные");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            await _dishesRepository.Update(id, dishDto.DishName, dishDto.Description, dishDto.Price, dishDto.CookingTime, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _dishesRepository.Update(id, dishDto.DishName, dishDto.Description, dishDto.Price, dishDto.CookingTime, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            await _dishesRepository.Delete(id, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _dishesRepository.Delete(id, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

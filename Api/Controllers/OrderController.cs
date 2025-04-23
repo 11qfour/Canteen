@@ -27,7 +27,12 @@ namespace Api.Controllers
                 TotalPrice=order.TotalPrice,
                 Address = order.Address,
                 CustomerName = order.Customer.NameCustomer,
-                EmployeeName=order.Employee.FullName
+                OrderDetails = order.OrderDetails.Select(d => new OrderDetailsDto
+                {
+                    DishId = d.DishId,
+                    Quantity = d.Quantity,
+                    PriceUnit = d.PriceUnit
+                }).ToList()
             }).ToList();
             return Ok(orderDtos);
         }
@@ -46,7 +51,12 @@ namespace Api.Controllers
                 TotalPrice = order.TotalPrice,
                 Address = order.Address,
                 CustomerName = order.Customer.NameCustomer,
-                EmployeeName = order.Employee.FullName
+                OrderDetails = order.OrderDetails.Select(d => new OrderDetailsDto
+                {
+                    DishId = d.DishId,
+                    Quantity = d.Quantity,
+                    PriceUnit = d.PriceUnit
+                }).ToList()
             };
             return Ok(orderDto);
         }
@@ -54,31 +64,98 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] OrderCreateDto orderDto, CancellationToken cancellationToken)
         {
-            if (orderDto == null)
-                return BadRequest("Некорректные данные");
+            if (!ModelState.IsValid) //проверяем заполненность данных в модели Дто
+                return BadRequest(ModelState);
 
-            var newOrder = await _ordersRepository.Add(orderDto.CustomerId, orderDto.TotalPrice, orderDto.EmployeeId, orderDto.Address, cancellationToken);
-            return CreatedAtAction(nameof(GetById), new { id = newOrder.OrderId }, orderDto);
+            try
+            {
+                var newOrder = await _ordersRepository.Add(orderDto.CustomerId, orderDto.TotalPrice, orderDto.Address, orderDto.OrderDetails,cancellationToken);
+                return CreatedAtAction(nameof(GetById), new { id = newOrder.OrderId }, orderDto);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] OrderUpdateDto orderDto, CancellationToken cancellationToken)
         {
-            if (orderDto == null)
-                return BadRequest("Некорректные данные");
-            if (!Enum.IsDefined(typeof(OrderStatus), orderDto.Status))
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+/*            if (!Enum.IsDefined(typeof(OrderStatus), orderDto.Status))
             {
-                return BadRequest("Некорректные данные"); //если выходит за границы enum
+                return BadRequest("Некорректные данные статуса"); //если выходит за границы enum
+            }*/
+            try
+            {
+                await _ordersRepository.Update(id, orderDto.TotalPrice, orderDto.Address, orderDto.OrderDetails ,cancellationToken);
+                return NoContent();
             }
-            await _ordersRepository.Update(id,orderDto.Status, cancellationToken);
-            return NoContent();
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); // Возвращаем ошибку при недопустимом переходе статуса
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            await _ordersRepository.Delete(id, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _ordersRepository.Delete(id, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id:guid}/status")]
+        public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] OrderStatusUpdateDto statusDto, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!Enum.IsDefined(typeof(OrderStatus), statusDto.Status))
+            {
+                return BadRequest("Некорректные данные статуса."); // Если значение выходит за границы enum
+            }
+
+            try
+            {
+                await _ordersRepository.UpdateStatus(id, statusDto.Status, cancellationToken);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); // Возвращаем ошибку при недопустимом переходе статуса
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
