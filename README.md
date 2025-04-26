@@ -42,12 +42,12 @@ Canteen/
 │   ├── Configurations/         # Конфигурации (связи между сущностями БД)
 │   ├── Enums/                  # Перечисления (для отображения статусов заказа и корзины)
 │   ├── Models/                 # Классы моделей
-│   ├── Repositories/           # Репозитории (CRUD-операции)
-│   ├── Services/               # Сервисы
 │   ├── ApiListContext.cs/      # DB Context
 ├── Api/                        # Веб-приложение 
 │   ├── Controllers/            # Контроллеры API
 │   ├── DTO/                   # Data Transfer Objects
+│   ├── Services/               # Сервисы работы с авторизацией
+│   ├── Repositories/           # Репозитории (CRUD-операции)
 │   ├── Program.cs/             # Сборщик всего проекта
 ├── media/                      # Скриншоты API и диаграммы
 │   ├── ERDiagrams.png          # ER-диаграмма базы данных
@@ -154,6 +154,45 @@ https://www.figma.com/design/SMQj2yHzQJvgIGv9vpnJLL/canteen-maket?node-id=0-1&p=
    
     ```bash
     https://localhost:7168/api/<название сущности>/{id}
+
+---
+
+## 🛠 Тестирование авторизации и аунтефикации через JWT токен при помощи **Postman**
+   📌 Успешное выполнение выполнение регистрации
+
+   ![📌 Успешное выполнение выполнение регистрации](https://github.com/11qfour/Canteen/raw/main/media/SuccessPostRegister.png)
+
+   📌 Успешное выполнение входа
+
+   ![📌 Успешное выполнение входа](https://github.com/11qfour/Canteen/raw/main/media/SuccessLogin.png)
+
+   📌 Успешное обновление токена
+
+   ![📌 Успешное обновление токена](https://github.com/11qfour/Canteen/raw/main/media/SuccessRefresh.png)
+
+   📌 Успешный Get-запрос с аунтефикацией
+
+   ![📌 Успешный Get-запрос с аунтефикацией](https://github.com/11qfour/Canteen/raw/main/media/SuccessGetCustomerWithAuth.png)
+
+   📌 Успешное добавление пользователя после регистрации в БД Customer
+
+   ![📌 Успешное добавление пользователя после регистрации в БД Customer](https://github.com/11qfour/Canteen/raw/main/media/SuccessAddAuthUsersInCustomers.png)
+
+   📌 Ошибка 401, неверный токен
+
+   ![📌 Ошибка 401, неверный токен](https://github.com/11qfour/Canteen/raw/main/media/Example401AuthentcationFailed.png)
+
+   📌 Ошибка 401, неверный токен
+
+   ![📌 Ошибка 401, неверный токен](https://github.com/11qfour/Canteen/raw/main/media/Example401AuthentcationFailed.png)
+
+   📌 Ошибка 401 при обновлении токена, невозможно обновить старый или невалидный
+
+   ![📌 Ошибка 401 при обновлении токена, невозможно обновить старый или невалидный](https://github.com/11qfour/Canteen/raw/main/media/ExampleErrorOldToken.png)
+
+   📌 📌 Ошибка 403, обычный пользователь не может добавить новое блюдо
+
+   ![📌 Ошибка 403, обычный пользователь не может добавить новое блюдо](https://github.com/11qfour/Canteen/raw/main/media/Example403ErrorUserDon'tAddDish.png)
 
 ---
 ## 📦 Структура DTO
