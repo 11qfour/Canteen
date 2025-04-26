@@ -14,6 +14,8 @@ namespace ApiDomain.Configurations
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
             builder.HasKey(x => x.CustomerId);
+            // Уникальный email
+            builder.HasIndex(x => x.Email).IsUnique();
         }
     }
 }
