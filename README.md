@@ -176,7 +176,7 @@ https://www.figma.com/design/SMQj2yHzQJvgIGv9vpnJLL/canteen-maket?node-id=0-1&p=
 
    📌 Успешное добавление пользователя после регистрации в БД Customer
 
-   ![📌 Успешное добавление пользователя после регистрации в БД Customer](https://github.com/11qfour/Canteen/raw/main/media/SuccessAddAuthUsersInCustomers.png)
+   ![📌 Успешное добавление пользователя после регистрации в БД Customer](https://github.com/11qfour/Canteen/raw/main/media/SuccessAddAuthUserInCustomer.png)
 
    📌 Ошибка 401, неверный токен
 
