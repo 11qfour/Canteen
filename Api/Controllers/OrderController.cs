@@ -2,10 +2,12 @@
 using ApiDomain.Enums;
 using ApiDomain.Models;
 using ApiDomain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [Route("api/order")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -15,7 +17,7 @@ namespace Api.Controllers
         {
             _ordersRepository = ordersRepository;
         }
-
+        [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)  
         {
@@ -36,7 +38,7 @@ namespace Api.Controllers
             }).ToList();
             return Ok(orderDtos);
         }
-
+        [Authorize(Roles = "User")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -61,6 +63,7 @@ namespace Api.Controllers
             return Ok(orderDto);
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] OrderCreateDto orderDto, CancellationToken cancellationToken)
         {
@@ -81,7 +84,7 @@ namespace Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [Authorize(Roles = "User")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] OrderUpdateDto orderDto, CancellationToken cancellationToken)
         {
@@ -109,7 +112,7 @@ namespace Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
@@ -127,7 +130,7 @@ namespace Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}/status")]
         public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] OrderStatusUpdateDto statusDto, CancellationToken cancellationToken)
         {

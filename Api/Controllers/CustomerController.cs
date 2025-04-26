@@ -1,9 +1,11 @@
 ﻿using Api.DTO;
 using ApiDomain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [Route("api/customer")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -22,7 +24,21 @@ namespace Api.Controllers
             {
                 CustomerId=customer.CustomerId,
                 NameCustomer=customer.NameCustomer,
-                Email=customer.Email
+                Email=customer.Email,
+                orders=customer.Orders.Select(d=>new OrderDto
+                {
+                    OrderId=d.OrderId,
+                    Status=d.Status.ToString(),
+                    TotalPrice=d.TotalPrice,
+                    Address=d.Address,
+                    CustomerName=d.Customer.NameCustomer
+                    /*OrderDetails=d.OrderDetails.Select(x => new OrderDetailsDto
+                    {
+                        DishId = x.DishId,
+                        Quantity = x.Quantity,
+                        PriceUnit = x.PriceUnit
+                    }).ToList()*/
+                }).ToList()
             }).ToList();
             return Ok(customerDtos);
         }
@@ -38,7 +54,21 @@ namespace Api.Controllers
             {
                 CustomerId = customer.CustomerId,
                 NameCustomer = customer.NameCustomer,
-                Email = customer.Email
+                Email = customer.Email,
+                orders = customer.Orders.Select(d => new OrderDto
+                {
+                    OrderId = d.OrderId,
+                    Status = d.Status.ToString(),
+                    TotalPrice = d.TotalPrice,
+                    Address = d.Address,
+                    CustomerName = d.Customer.NameCustomer
+                    /*                    OrderDetails = d.OrderDetails.Select(x => new OrderDetailsDto
+                                        {
+                                            DishId = x.DishId,
+                                            Quantity = x.Quantity,
+                                            PriceUnit = x.PriceUnit
+                                        }).ToList()*/
+                }).ToList()
             };
             return Ok(customerDto);
         }

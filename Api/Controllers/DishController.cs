@@ -1,5 +1,6 @@
 ﻿using Api.DTO;
 using ApiDomain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -13,7 +14,7 @@ namespace Api.Controllers
         {
             _dishesRepository = dishesRepository;
         }
-
+        [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
@@ -28,7 +29,7 @@ namespace Api.Controllers
             }).ToList();
             return Ok(dishDtos);
         }
-
+        [Authorize(Roles = "User")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -46,7 +47,7 @@ namespace Api.Controllers
             };
             return Ok(dishDto);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] DishCreateDto dishDto, CancellationToken cancellationToken)
         {
@@ -63,7 +64,7 @@ namespace Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] DishUpdateDto dishDto, CancellationToken cancellationToken)
         {
@@ -84,7 +85,7 @@ namespace Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
