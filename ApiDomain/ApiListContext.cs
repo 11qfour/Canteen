@@ -1,6 +1,8 @@
 ﻿using ApiDomain.Configurations;
 using ApiDomain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiDomain
 {
@@ -19,6 +21,10 @@ namespace ApiDomain
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
 
+        public DbSet<AuthUser> AuthUser { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CartConfiguration());//добавление конфигураций
@@ -28,13 +34,21 @@ namespace ApiDomain
             modelBuilder.ApplyConfiguration(new DishConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new AuthUserConfiguration());
+            foreach(var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var dateTimeProperties = entityType.ClrType.GetProperties()
+                    .Where(p => p.PropertyType == typeof(DateTime) || p.PropertyType == typeof(DateTime?));
 
-            /*// Добавление начальных сотрудников
-            modelBuilder.Entity<Employee>().HasData(
-                new Employee { EmployeeID = 1, FullName = "Иван Иванов", Position = "Официант" },
-                new Employee { EmployeeID = 2, FullName = "Петр Петров", Position = "Повар" }
-            );*/
+                foreach (var property in dateTimeProperties)
+                {
+                    modelBuilder.Entity(entityType.Name).Property(property.Name)
+                        .HasConversion(new ValueConverter<DateTime, DateTime>(
+                            v => v.ToUniversalTime(),
+                            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)));
+                }
+            }
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
